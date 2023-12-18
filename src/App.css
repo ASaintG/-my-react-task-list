@@ -1,0 +1,32 @@
+:root{
+  --colorazul:#007bff;
+  --colorcheckbox:#4CAF50;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+
+.tarjeta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+}
+.round-checkbox {
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px; 
+  height: 20px; 
+  border-radius: 50%; 
+  border: 2px solid #333; 
+  outline: none; 
+  cursor: pointer; 
+}
+.round-checkbox:checked {
+  background-color: var(--colorcheckbox); 
+  border-color: var(--colorcheckbox); 
+}

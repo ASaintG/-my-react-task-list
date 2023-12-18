@@ -8,7 +8,7 @@ const TaskItem = ({ task }) => {
       <strong>Estado:</strong>
       <input type="checkbox" className="round-checkbox" checked={task.estado}  />
       <br />
-      <strong>Nombre:</strong> {task.name}
+      <strong>Nombres:</strong> {task.name}
    
      
 

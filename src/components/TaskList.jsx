@@ -1,43 +1,104 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskItem from './TaskItem';
+import TaskEditForm from './TaskEditForm';
 
-const initialTasks = [
-  {
-    name: "Podar los arbustos del jardín",
-    fecha: "2023-11-20T11:30:00.000+00:00",
-    description: "Mantener el jardín limpio y ordenado podando los arbustos.",
-    estado: true
-  },
-  {
-    name: "Regar las plantas",
-    fecha: "2023-11-21T15:00:00.000+00:00",
-    description: "Asegurarse de que todas las plantas reciban la cantidad adecuada de agua.",
-    estado: false
-  },
-  {
-    name: "Plantar nuevas flores",
-    fecha: "2023-11-22T10:00:00.000+00:00",
-    description: "Agregar color al jardín plantando flores frescas.",
-    estado: false
-  },
-  {
-    name: "Otra tarea",
-    fecha: "2023-11-23T14:30:00.000+00:00",
-    description: "Descripción de otra tarea.",
-    estado: true
-  },
-];
+const TaskList = ({ tasks: initialTasks }) => {
+  const [tasks, setTasks] = useState(initialTasks);
+  const [newTask, setNewTask] = useState({ name: '', fecha: '', description: '', estado: false });
+  const [editingIndex, setEditingIndex] = useState(null);
 
-const TaskList = ({ tasks }) => {
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    setTasks(storedTasks);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  const handleAddTask = () => {
+    if (newTask.name.trim() !== '') {
+      setTasks([...tasks, newTask]);
+      setNewTask({ name: '', fecha: '', description: '', estado: false });
+    }
+  };
+
+  const handleDeleteTask = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks.splice(index, 1);
+    setTasks(updatedTasks);
+  };
+
+  const handleEditTask = (index) => {
+    setEditingIndex(index);
+    setNewTask(tasks[index]);
+  };
+
+  const handleSaveEdit = (editedTask) => {
+    if (editingIndex !== null) {
+      const updatedTasks = [...tasks];
+      updatedTasks[editingIndex] = editedTask;
+      setTasks(updatedTasks);
+      setEditingIndex(null);
+      setNewTask({ name: '', fecha: '', description: '', estado: false });
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingIndex(null);
+    setNewTask({ name: '', fecha: '', description: '', estado: false });
+  };
+
+  const handleTitleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if (editingIndex !== null) {
+        handleSaveEdit();
+      } else {
+        handleAddTask();
+      }
+    }
+  };
+
   return (
+    <> {editingIndex === null && (
+      <div>
+        <h3>Agregar Nueva Tarea:</h3>
+        <input
+          type="text"
+          placeholder="Título"
+          value={newTask.name}
+          onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
+          onKeyDown={handleTitleKeyDown}
+        />
+      </div>
+    )}
     <div className="tarjeta">
-      
+      <h2>Listado de Tareas:</h2>
       <ul>
         {tasks.map((task, index) => (
-          <TaskItem key={index} task={task} />
+          <TaskItem
+            key={index}
+            task={task}
+            onDelete={() => handleDeleteTask(index)}
+            onEdit={() => handleEditTask(index)}
+          />
         ))}
       </ul>
+      <div>
+        {/* Renderizar el formulario de edición si hay un índice de edición */}
+        {editingIndex !== null && (
+          <TaskEditForm
+            task={tasks[editingIndex]}
+            onSave={handleSaveEdit}
+            onCancel={handleCancelEdit}
+          />
+        )}
+
+        {/* Renderizar el formulario para agregar nueva tarea si no está en modo de edición */}
+       
+      </div>
     </div>
+    </>
   );
 };
 

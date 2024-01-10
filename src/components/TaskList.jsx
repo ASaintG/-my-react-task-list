@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TaskItem from './TaskItem';
 import TaskEditForm from './TaskEditForm';
+import "../App.css"
 
 const TaskList = ({ tasks: initialTasks }) => {
   const [tasks, setTasks] = useState(initialTasks);
@@ -18,20 +19,19 @@ const TaskList = ({ tasks: initialTasks }) => {
 
   const handleAddTask = () => {
     if (newTask.name.trim() !== '') {
-      setTasks([...tasks, newTask]);
+      setTasks([newTask, ...tasks]);
       setNewTask({ name: '', fecha: '', description: '', estado: false });
     }
   };
 
-  const handleDeleteTask = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks.splice(index, 1);
+  const handleDeleteTask = (task) => {
+    const updatedTasks = tasks.filter((t) => t !== task);
     setTasks(updatedTasks);
   };
 
-  const handleEditTask = (index) => {
-    setEditingIndex(index);
-    setNewTask(tasks[index]);
+  const handleEditTask = (task) => {
+    setEditingIndex(tasks.indexOf(task));
+    setNewTask(task);
   };
 
   const handleSaveEdit = (editedTask) => {
@@ -59,33 +59,43 @@ const TaskList = ({ tasks: initialTasks }) => {
     }
   };
 
+  const handleToggleState = (task) => {
+    // Cambia el estado directamente
+    const updatedTasks = [...tasks];
+    const index = updatedTasks.indexOf(task);
+    updatedTasks[index].estado = !updatedTasks[index].estado;
+    setTasks(updatedTasks);
+  };
+  
+
   return (
-    <> {editingIndex === null && (
-      <div>
-        <h3>Agregar Nueva Tarea:</h3>
-        <input
-          type="text"
-          placeholder="Título"
-          value={newTask.name}
-          onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
-          onKeyDown={handleTitleKeyDown}
-        />
-      </div>
-    )}
-    <div className="tarjeta">
-      <h2>Listado de Tareas:</h2>
-      <ul>
-        {tasks.map((task, index) => (
-          <TaskItem
-            key={index}
-            task={task}
-            onDelete={() => handleDeleteTask(index)}
-            onEdit={() => handleEditTask(index)}
+    <>
+      {editingIndex === null && (
+        <div className='newTaks'>
+          <input
+            type="text"
+            className='Name'
+            placeholder="Name Task"
+            value={newTask.name}
+            onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
+            onKeyDown={handleTitleKeyDown}
           />
-        ))}
-      </ul>
-      <div>
-        {/* Renderizar el formulario de edición si hay un índice de edición */}
+        </div>
+      )}
+      <div className="tarjeta">
+        <ul>
+          {tasks.map((task, index) => (
+            <TaskItem
+              key={index}
+              task={task}
+              onDelete={() => handleDeleteTask(task)}
+              onEdit={() => handleEditTask(task)}
+              onToggleState={() => handleToggleState(task)}
+            />
+          ))}
+        </ul>
+      </div>
+      <div className='editCard'>
         {editingIndex !== null && (
           <TaskEditForm
             task={tasks[editingIndex]}
@@ -93,11 +103,7 @@ const TaskList = ({ tasks: initialTasks }) => {
             onCancel={handleCancelEdit}
           />
         )}
-
-        {/* Renderizar el formulario para agregar nueva tarea si no está en modo de edición */}
-       
       </div>
-    </div>
     </>
   );
 };

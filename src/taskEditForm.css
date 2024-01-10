@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+.container {
+  display: flex;
+  justify-content: flex-end; /* Coloca el contenido al final del contenedor (derecha en este caso) */
+  align-items: center; /* Centra verticalmente el contenido */
+  height: 100vh; /* Ocupa el 100% de la altura del viewport */
+  padding: 20px;
+}
+
+form {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-right: 10px; /* Añade un margen a la derecha de 10px */
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }

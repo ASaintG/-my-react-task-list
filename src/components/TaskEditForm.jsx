@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "../TaskEditForm.css";
 
 const TaskEditForm = ({ task, onSave, onCancel }) => {
   const [editedTask, setEditedTask] = useState({
@@ -9,7 +10,6 @@ const TaskEditForm = ({ task, onSave, onCancel }) => {
   });
 
   useEffect(() => {
-    // Actualizar el estado del formulario cuando cambia la tarea
     setEditedTask({
       name: task.name || '',
       fecha: task.fecha || '',
@@ -19,21 +19,22 @@ const TaskEditForm = ({ task, onSave, onCancel }) => {
   }, [task]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+
     setEditedTask((prevTask) => ({
       ...prevTask,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
   const handleSave = (e) => {
     e.preventDefault();
-    // Llamar a la función onSave con la tarea editada
     onSave(editedTask);
   };
 
   return (
-    <>
+    <div className='container'>
       <form onSubmit={handleSave}>
         <label htmlFor="name">Task:</label>
         <input
@@ -44,6 +45,7 @@ const TaskEditForm = ({ task, onSave, onCancel }) => {
           value={editedTask.name}
           onChange={handleChange}
         />
+
         <label htmlFor="fecha">Fecha:</label>
         <input
           type="date"
@@ -52,6 +54,7 @@ const TaskEditForm = ({ task, onSave, onCancel }) => {
           value={editedTask.fecha}
           onChange={handleChange}
         />
+
         <label htmlFor="description">Descripción:</label>
         <textarea
           id="description"
@@ -61,12 +64,22 @@ const TaskEditForm = ({ task, onSave, onCancel }) => {
           cols="30"
           rows="10"
         ></textarea>
+
+        <label htmlFor="estado">Estado:</label>
+        <input
+          type="checkbox"
+          id="estado"
+          name="estado"
+          checked={editedTask.estado}
+          onChange={handleChange}
+        />
+
         <button type="submit">Guardar Actualización</button>
         <button type="button" onClick={onCancel}>
           Cancelar
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

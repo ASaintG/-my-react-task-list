@@ -1,32 +1,84 @@
-:root{
-  --colorazul:#007bff;
-  --colorcheckbox:#4CAF50;
+:root {
+  --colorazul: #007bff;
+  --colorcheckbox: #4CAF50;
 }
 
-body{
+body {
   margin: 0;
-  padding: 0;
+  font-family: Arial, sans-serif;
 }
-
 
 .tarjeta {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
+  height: 100vh;
+
 }
+.task-container {
+  display: flex;
+  align-items: center;
+}
+
 .round-checkbox {
-  appearance: none; 
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 20px; 
-  height: 20px; 
-  border-radius: 50%; 
-  border: 2px solid #333; 
-  outline: none; 
-  cursor: pointer; 
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  outline: none;
+  cursor: pointer;
+  margin-right: 8px; 
 }
+
 .round-checkbox:checked {
-  background-color: var(--colorcheckbox); 
-  border-color: var(--colorcheckbox); 
+  background-color: var(--colorcheckbox);
+  border-color: var(--colorcheckbox);
+}
+
+.Name {
+ 
+  width: 250px;
+  height: 50px;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.Name:focus,
+.Name:hover {
+  width: 300px;
+  border: 1px solid #343FDC;
+}
+
+.newTaks{
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  padding-bottom: 0;
+}
+
+form {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-right: 10px; /* Añade un margen a la derecha de 10px */
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+.editCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%; /* Ajusta según sea necesario */
+  right: 0; /* Coloca el componente en el borde derecho */
+  transform: translateY(-50%); /* Centra verticalmente respecto al 50% superior */
+  padding: 20px;
 }

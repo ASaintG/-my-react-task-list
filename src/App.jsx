@@ -2,7 +2,11 @@
 import React from 'react';
 import './App.css';
 import TaskList from './components/TaskList';
-import Header from './components/Header';
+import NavBrowser from './components/NavBrowser';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./page/Home";
+import About from "./page/About";
+
 function App() {
   const tasks = [
     {
@@ -33,9 +37,14 @@ function App() {
 
   return (
     <>
-      <Header></Header>
-      <TaskList tasks={tasks} />
-      
+      <Router>
+      <NavBrowser />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/tasklist" element={<TaskList tasks={tasks} />} />
+        </Routes>
+      </Router>
     </>
   );
 }

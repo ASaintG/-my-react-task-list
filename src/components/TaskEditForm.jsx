@@ -74,8 +74,8 @@ const TaskEditForm = ({ task, onSave, onCancel }) => {
           onChange={handleChange}
         />
 
-        <button type="submit">Guardar Actualización</button>
-        <button type="button" onClick={onCancel}>
+        <button className='saveUpdate' type="submit">Guardar Actualización</button>
+        <button className='cancelUpdate' type="button" onClick={onCancel}>
           Cancelar
         </button>
       </form>

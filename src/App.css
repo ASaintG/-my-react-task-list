@@ -59,19 +59,7 @@ body {
   padding-bottom: 0;
 }
 
-form {
-  width: 300px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-right: 10px; /* Añade un margen a la derecha de 10px */
-}
 
-label {
-  display: block;
-  margin-bottom: 8px;
-}
 .editCard {
   display: flex;
   justify-content: center;
